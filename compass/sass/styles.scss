@@ -1,5 +1,52 @@
 body{
-	background-color: #1d96d7;
+	font-family: 'Ubuntu', sans-serif;
+	p {
+		font-size: 20px;
+	}
+}
+.hide {
+	visibility: hidden;
+}
+.show {
+	visibility: visible;
+}
+
+.navbar, .navbar-banner {
+	background-color: #FFCB46;
+	margin: 0px;
+}
+#logo img{
+	height: 80px;
+	padding-bottom: 40px;
+}
+.carousel {
+	max-height: 80%;
+	img {
+		width: 100%;
+	}
+}
+.welcomeMsg {
+	padding-top: 20px;
+	margin-right: 15px;
+}
+.title {
+	text-align:center;
+	padding-top: 1%;
+}
+.form-horizontal {
+	padding: 15%;
+	padding-top: 1%;
+	.form-wrapper {
+		background-color: #fef6d4;
+		padding: 30px;
+		padding-top: 8%;
+	}
+
+}
+.register {
+	button {
+		text-align: center;
+		}
 }
 
 

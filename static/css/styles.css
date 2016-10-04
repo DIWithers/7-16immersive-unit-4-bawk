@@ -1,4 +1,68 @@
 /* line 1, ../../compass/sass/styles.scss */
 body {
-  background-color: #1d96d7;
+  font-family: 'Ubuntu', sans-serif;
+}
+/* line 3, ../../compass/sass/styles.scss */
+body p {
+  font-size: 20px;
+}
+
+/* line 7, ../../compass/sass/styles.scss */
+.hide {
+  visibility: hidden;
+}
+
+/* line 10, ../../compass/sass/styles.scss */
+.show {
+  visibility: visible;
+}
+
+/* line 14, ../../compass/sass/styles.scss */
+.navbar, .navbar-banner {
+  background-color: #FFCB46;
+  margin: 0px;
+}
+
+/* line 18, ../../compass/sass/styles.scss */
+#logo img {
+  height: 80px;
+  padding-bottom: 40px;
+}
+
+/* line 22, ../../compass/sass/styles.scss */
+.carousel {
+  max-height: 80%;
+}
+/* line 24, ../../compass/sass/styles.scss */
+.carousel img {
+  width: 100%;
+}
+
+/* line 28, ../../compass/sass/styles.scss */
+.welcomeMsg {
+  padding-top: 20px;
+  margin-right: 15px;
+}
+
+/* line 32, ../../compass/sass/styles.scss */
+.title {
+  text-align: center;
+  padding-top: 1%;
+}
+
+/* line 36, ../../compass/sass/styles.scss */
+.form-horizontal {
+  padding: 15%;
+  padding-top: 1%;
+}
+/* line 39, ../../compass/sass/styles.scss */
+.form-horizontal .form-wrapper {
+  background-color: #fef6d4;
+  padding: 30px;
+  padding-top: 8%;
+}
+
+/* line 47, ../../compass/sass/styles.scss */
+.register button {
+  text-align: center;
 }
