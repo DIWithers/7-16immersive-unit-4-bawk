@@ -45,24 +45,48 @@ body p {
 }
 
 /* line 32, ../../compass/sass/styles.scss */
+.main-intro {
+  max-width: 90%;
+  margin: auto;
+}
+
+/* line 36, ../../compass/sass/styles.scss */
 .title {
   text-align: center;
   padding-top: 1%;
 }
 
-/* line 36, ../../compass/sass/styles.scss */
+/* line 40, ../../compass/sass/styles.scss */
+.container {
+  display: inline-block;
+}
+/* line 42, ../../compass/sass/styles.scss */
+.container .post-button {
+  margin-left: 18px;
+  margin-top: 5px;
+}
+/* line 46, ../../compass/sass/styles.scss */
+.container .post-container {
+  margin-top: 20px;
+}
+/* line 48, ../../compass/sass/styles.scss */
+.container .post-container .post-wrapper {
+  border: 1px solid black;
+}
+
+/* line 54, ../../compass/sass/styles.scss */
 .form-horizontal {
   padding: 15%;
   padding-top: 1%;
 }
-/* line 39, ../../compass/sass/styles.scss */
+/* line 57, ../../compass/sass/styles.scss */
 .form-horizontal .form-wrapper {
   background-color: #fef6d4;
   padding: 30px;
   padding-top: 8%;
 }
 
-/* line 47, ../../compass/sass/styles.scss */
+/* line 65, ../../compass/sass/styles.scss */
 .register button {
   text-align: center;
 }

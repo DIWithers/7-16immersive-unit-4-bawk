@@ -29,9 +29,27 @@ body{
 	padding-top: 20px;
 	margin-right: 15px;
 }
+.main-intro {
+	max-width: 90%;
+	margin:auto;
+}
 .title {
 	text-align:center;
 	padding-top: 1%;
+}
+.container {
+	display: inline-block;
+	.post-button {
+		margin-left: 18px;
+		margin-top: 5px;
+	}
+	.post-container {
+		margin-top: 20px;
+		.post-wrapper {
+		border: 1px solid black;
+	}
+	}
+	
 }
 .form-horizontal {
 	padding: 15%;

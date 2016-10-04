@@ -1,6 +1,10 @@
 {% extends 'layout.html' %}
 {% block body %}
 
+{% if message %}
+<div class="alert alert-danger">{{message}}</div>
+{% endif %}
+
 <!-- Carousel!!! -->
 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
   <!-- Indicators -->
@@ -51,8 +55,39 @@
   </a>
 </div>
 
-<h1 class="title">The bees’ future is our future</h1>
-<p class="info">Bee colony collapse disorder has contributed to a loss of about 30% of pollinators each year for the last ten years. We believe this serious issue affects everyone. After all, farmers can’t grow the crops we need if we don’t protect the bees that pollinate them.</p>
+<div class="container">
+  <div class="row main-intro"><h1 class="title">The bees’ future is our future</h1>
+  <p class="info">Bee colony collapse disorder has contributed to a loss of about 30% of pollinators each year for the last ten years. We believe this serious issue affects everyone. After all, farmers can’t grow the crops we need if we don’t protect the bees that pollinate them.</p></div>
 
+  <form id="submit-post-form" action="post_submit" method="POST">
+    <div class="row post-area">
+      <div class="col-md-8 col-md-offset-3">
+        <div class="col-sm-2"><img src="static/images/honeycomb-small2.png"></div>
+          <div class="col-sm-6"><textarea name ="post_content" cols="50" rows="4" placeholder="What are your thoughts on the bee crisis?"></textarea></div>
+      <!-- <input type="hidden" value={{user_id}}> -->
+       </div>
+      </div>
+    <div class="row button-wrapper">
+      <div class="col-md-4 col-md-offset-7"><button type="submit" class="btn btn-warning post-button">Submit Post</button></div>
+    </div>
+  </form>
+  <div class="row">
+    <div class="col-sm-1 col-sm-offset-2"><img src="static/images/avatars/happy_face_transparent.png"></div>
+    <div class="col-sm-3">
+      <label>Update Avatar</label>
+      <div class="update_avatar"><input type="file" id="avatar" name="avatar"></div>
+    </div>
+  </div>
+  <!-- RECENT POSTS -->
+  <div class="row post-container">
+    <div class="col-md-8 col-md-offset-2 post-wrapper">
+    {% for buzz in buzzes %}
+      <div class="col-md-2 avatar"><!-- <img src="static/images/avatars/happy_face_transparent.png"> --></div>
+      <div class="col-md-8 post-content"><p>{{buzz[1]}}</p></div>
+      <div class="col-md-2 votes">Votes Placeholder</div>
+    {% endfor %}
+    </div>
+  </div>
+</div> <!-- end container -->
 
 {% endblock %}
