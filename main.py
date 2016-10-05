@@ -117,6 +117,7 @@ def login_submit():
 		session["id"] = check_user_result[0]
 		session["full_name"] = check_user_result[1]
 		session["avatar"] = check_user_result[5]
+		print session["avatar"]
 		#welcome the user?
 
 		return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = session["avatar"] )
@@ -136,8 +137,9 @@ def post_submit():
 	retrieve_post_query = "SELECT * FROM buzzes limit 25"
 	cursor.execute(retrieve_post_query)
 	buzzes = cursor.fetchall()
-
-	return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = session["avatar"])	
+	avatar = session["avatar"]
+	print avatar
+	return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar)	
 @app.route("/edit_avatar", methods=["POST"])
 def edit_avatar():
 	image = request.files["avatar"]
@@ -145,7 +147,8 @@ def edit_avatar():
 	image_path = image.filename
 
 	query = "UPDATE user SET avatar = %s WHERE username = '%s'" % session["username"]
-	cursor.execute(query, (image))
+	cursor.execute(query, (image_path))
+	return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar)
 
 @app.route("/logout")
 def logout():
@@ -162,7 +165,7 @@ def process_vote():
 	check_user_votes_result = cursor.fetchone()
 	# It's possible we get none back bc the user hasn't voted on this post...
 	if check_user_votes_result is None: #insert needed
-		insert_user_vote_query = "INSERT INTO votes (pid, uid, voteType) VALUES ('"+pid+"', '"+session['id']+"', '"+voteType+"')"
+		insert_user_vote_query = "INSERT INTO votes (pid, uid, vote_type) VALUES ('"+pid+"', '"+session['id']+"', '"+vote_type+"')"
 		cursor.execute(insert_user_vote_query)
 		conn.commit()
 	return jsonify(request.form["pid"])

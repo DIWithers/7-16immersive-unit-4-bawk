@@ -10,7 +10,7 @@ $(document).ready(function() {
 		$.ajax ({
 			url: "/process_vote",
 			type: "post",
-			data: {pid:pid, voteType:voteType},
+			data: {pid:pid, vote_type:vote_type},
 			success: function(result) {
 
 			}

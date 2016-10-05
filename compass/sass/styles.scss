@@ -3,6 +3,10 @@ body{
 	p {
 		font-size: 20px;
 	}
+	hr {
+		border: 1px solid orange;
+		width: 90%;
+	}
 }
 .hide {
 	visibility: hidden;
@@ -45,9 +49,10 @@ body{
 	}
 	.post-container {
 		margin-top: 20px;
+		background-color: #FEF6D4;
 		.post-wrapper {
-		border: 1px solid black;
-	}
+		border: 1px solid orange;
+		}
 	}
 	
 }
@@ -60,6 +65,15 @@ body{
 		padding-top: 8%;
 	}
 
+}
+.edit-avatar-wrapper {
+	background-color: beige;
+	margin-bottom: 15px;
+	.avatar-button {
+	height: 25px;
+	font-size: 10px;
+	margin-top: 3px;
+}
 }
 .register {
 	button {
