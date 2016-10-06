@@ -60,16 +60,19 @@ def register_submit():
 		# avatar
 		hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
 		# print hashed_password
-		insert_username_query = "INSERT INTO user VALUES (DEFAULT, %s, %s, %s, %s, NULL)"
+		insert_username_query = "INSERT INTO user VALUES (DEFAULT, %s, %s, %s, %s, DEFAULT)"
 		cursor.execute(insert_username_query, (full_name, username, hashed_password, email))
 		conn.commit()
 		# shortcut so user doesn't have to log in right after registering
 		session["username"] = request.form["username"]
-		session["id"] = check_username_result[0]
-		session["full_name"] = check_username_result[1]
-		session["avatar"] = check_username_result[5]
+		# session["id"] = check_username_result[0]
+		session["full_name"] = request.form["full_name"]
+		session["avatar"] = "bee_neutral.png"
+		retrieve_post_query = "SELECT * FROM buzzes limit 25"
+		cursor.execute(retrieve_post_query)
+		buzzes = cursor.fetchall()
 		#welcome the user?
-		return render_template("index.html", welcome_msg = "Welcome, " + session["full_name"])
+		return render_template("index.html", welcome_msg = "Welcome, " + session["full_name"], buzzes = buzzes, avatar = session["avatar"])
 	else:
 		return redirect("/register?username=taken")
 
@@ -117,7 +120,7 @@ def login_submit():
 		session["id"] = check_user_result[0]
 		session["full_name"] = check_user_result[1]
 		session["avatar"] = check_user_result[5]
-		print session["avatar"]
+		print check_user_result[5]
 		#welcome the user?
 
 		return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = session["avatar"] )
@@ -140,8 +143,8 @@ def post_submit():
 	avatar = session["avatar"]
 	print avatar
 	return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar)	
-@app.route("/edit_avatar", methods=["POST"])
-def edit_avatar():
+@app.route("/upload_avatar", methods=["POST"])
+def upload_avatar():
 	image = request.files["avatar"]
 	image.save("static/images/avatars" + image.filename)
 	image_path = image.filename

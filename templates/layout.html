@@ -41,14 +41,18 @@
         <button type="button" class="btn btn-warning">HOME</button></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+
       	<li class="welcomeMsg">{{welcome_msg}} </li>
+        {% if not session %}
         <li><a href="/login" class="nav navbar-nav">
         <button type="button" class="btn btn-warning">Login</button></a></li>
-        <li><a href="/logout" class="nav navbar-nav">
-        <button type="button" class="btn btn-warning">Log Out</button></a></li>
         <li><a href="/register" class="nav navbar-nav">
         <button type="button" class="btn btn-warning">Register</button></a></li>
-
+        {% endif %}
+        {% if session %}
+        <li><a href="/logout" class="nav navbar-nav">
+        <button type="button" class="btn btn-warning">Log Out</button></a></li>
+        {% endif %}
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

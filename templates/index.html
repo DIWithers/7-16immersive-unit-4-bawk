@@ -57,8 +57,9 @@
 
 <div class="container">
   <div class="row main-intro"><h1 class="title">The bees’ future is our future</h1>
-  <p class="info">Bee colony collapse disorder has contributed to a loss of about 30% of pollinators each year for the last ten years. We believe this serious issue affects everyone. After all, farmers can’t grow the crops we need if we don’t protect the bees that pollinate them.</p></div>
+  <p class="info">Bee colony collapse disorder has contributed to a loss of about 30% of pollinators each year for the last ten years. We believe this serious issue affects everyone. After all, farmers can’t grow the crops we need if we don’t protect the bees that pollinate them. {% if not session %}<a href="/login"><span style="color:#ED9C2A;">Log in for the full experience!</span></a>{% endif %}</p></div>
 
+{% if session %}
   <form id="submit-post-form" action="post_submit" method="POST">
     <div class="row post-area">
       <div class="col-md-8 col-md-offset-3">
@@ -72,12 +73,39 @@
     </div>
   </form>
   <div class="col-md-8 col-md-offset-2 edit-avatar-wrapper">
-    <div class="col-sm-1"><img src="static/images/avatars/{{avatar}}"></div>
-    <form id="submit-post-form" action="edit_avatar" method="POST">
+    <div class="col-sm-2 current-avatar"><label>Current Avatar</label><img src="static/images/avatars/{{avatar}}"></div>
+    <form id="choose-avatar-form" action="choose_avatar" method="POST">
+      <div class="col-sm-5">
+        <div class="choose-avatar">
+        <label><span style="color:beige;">............</span>Choose an Avatar</label>
+          <ul>
+            <li><a href="#"><img src="static/images/avatars/alien.png"></a></li>
+            <li><a href="#"><img src="static/images/avatars/chris_rock.png"></a></li>
+            <li><a href="#"><img src="static/images/avatars/happy_grandpa.png"></a></li>
+            <li><a href="#"><img src="static/images/avatars/man_red_background.png"></a></li>
+            <li><a href="#"><img src="static/images/avatars/man_sad.png"></a></li>
+            <li><a href="#"><img src="static/images/avatars/vampire.png"></a></li>
+            <li><a href="#"><img src="static/images/avatars/wolverine.png"></a></li>
+            <li><a href="#"><img src="static/images/avatars/woman_shades.png"></a></li>
+            <li><a href="#"><img src="static/images/avatars/woman_violet.png"></a></li>
+            <li><a href="#"><img src="static/images/avatars/zombie.png"></a></li>
+            <li><a href="#"><img src="static/images/avatars/woman_pink_hair.png"></a></li>
+            <li><a href="#"><img src="static/images/avatars/woman_grey_hair.png"></a></li>
+            <li><a href="#"><img src="static/images/avatars/woman_grey.png"></a></li>
+            <li><a href="#"><img src="static/images/dead_bee.png"></a></li>
+          </ul>
+        </div>
+        
+      </div>
+      
+    </form>
+    <form id="upload-avatar-form" action="upload_avatar" method="POST">
       <div class="col-sm-3">
-        <label>Update Avatar</label>
-        <div class="update_avatar"><input type="file" id="avatar" name="avatar"></div>
-        <button type="submit" class="btn btn-warning avatar-button">Update</button>
+        <label>Or Upload Your Own</label>
+        <div class="update_avatar">
+          <input type="file" id="avatar" name="avatar">
+        </div>
+        <button type="submit" class="btn btn-warning avatar-button">Upload</button>
       </div>
     </form>
   </div>
@@ -88,12 +116,31 @@
       <div class="row buzzes">
         <div class="col-md-2 avatar"><img src="static/images/avatars/{{avatar}}"></div>
         <div class="col-md-8 post-content"><p>{{buzz[1]}}</p></div>
-        <div class="col-md-2 votes">Votes Placeholder</div>
+        <div class="col-md-2 votes"><div class="vote vote-up" post_id="{{buzz[0]}}">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="imgView" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 451.847 451.846" style="enable-background:new 0 0 451.847 451.846;" xml:space="preserve" class="detail convertSvgInline replaced-svg" data-id="32323" data-kw="navigate6">
+            <g>
+              <path style="fill:#ED9C2A;" d="M248.292,106.406l194.281,194.29c12.365,12.359,12.365,32.391,0,44.744c-12.354,12.354-32.391,12.354-44.744,0   L225.923,173.529L54.018,345.44c-12.36,12.354-32.395,12.354-44.748,0c-12.359-12.354-12.359-32.391,0-44.75L203.554,106.4   c6.18-6.174,14.271-9.259,22.369-9.259C234.018,97.141,242.115,100.232,248.292,106.406z"></path>
+            </g>
+          </svg>      
+        </div>
+        <div class="vote-up-down-number" up-down-id="{{buzz[0]}}">
+          {{buzz[3]}}
+        </div>
+
+        <div class="vote vote-down" post_id="{{buzz[0]}}">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="imgView" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 307.053 307.053" style="enable-background:new 0 0 307.053 307.053;" xml:space="preserve" class="detail convertSvgInline replaced-svg" data-id="26046" data-kw="down14">
+            <g id="_x34_86._Down">
+              <g>
+                <path style="fill:#ED9C2A;" d="M302.445,80.796l-11.101-11.103c-6.123-6.131-16.074-6.131-22.209,0L153.67,183.707L37.907,67.959     c-6.134-6.13-16.08-6.13-22.209,0L4.597,79.06c-6.129,6.133-6.129,16.067,0,22.201l137.83,137.829     c6.129,6.136,16.067,6.136,22.203,0l137.815-136.096C308.589,96.864,308.589,86.926,302.445,80.796z"></path>
+              </g>
+            </g>
+          </svg>
+        </div></div>
       </div>
       <hr>
     {% endfor %}
     </div>
   </div>
 </div> <!-- end container -->
-
+{% endif %}
 {% endblock %}

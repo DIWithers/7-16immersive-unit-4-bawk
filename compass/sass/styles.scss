@@ -43,15 +43,38 @@ body{
 }
 .container {
 	display: inline-block;
+	width: 100%;
+	.button-wrapper {
+		margin-bottom: 8px;
+	}
 	.post-button {
-		margin-left: 18px;
-		margin-top: 5px;
+		margin: 5px 0px 5px 18px;
 	}
 	.post-container {
 		margin-top: 20px;
 		background-color: #FEF6D4;
 		.post-wrapper {
 		border: 1px solid orange;
+			.buzzes {
+				.post-content {
+					padding-top: 20px;
+				}
+				.avatar {
+					text-align: center;
+					img {
+						width: 60px;
+						margin-top: 20px;
+					}
+				}
+			}
+			.votes {
+
+				.vote-up-down-number{
+					margin-left: 15px;
+					font-size: 18px;
+
+				}
+			}
 		}
 	}
 	
@@ -68,12 +91,44 @@ body{
 }
 .edit-avatar-wrapper {
 	background-color: beige;
+	// border: 1px solid #fcd6a1;
+	box-shadow: 1px 1px 1px 5px #fcd6a1;
+
 	margin-bottom: 15px;
+	height: 100px;
 	.avatar-button {
 	height: 25px;
 	font-size: 10px;
-	margin-top: 3px;
-}
+	margin: 8px 0px;
+	}
+	.current-avatar {
+		border-right: 1px solid #fcd6a1;
+		height: 100%;
+		text-align: center;
+		img {
+			width: 60px;
+		}
+	}
+	.choose-avatar {
+		padding-bottom: 10px;
+		ul {
+			list-style-type: none;
+			width: 100%;
+
+			li {
+				float:left;
+				:hover {
+						border: 1px solid beige;
+					}
+				img {
+					max-height: 35px;
+					max-width: 40px;
+
+				}
+			}
+		}
+
+	}
 }
 .register {
 	button {
