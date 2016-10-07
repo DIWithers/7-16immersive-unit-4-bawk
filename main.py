@@ -22,6 +22,11 @@ cursor = conn.cursor()
 #secret key needed for sessions to work #salt for the session #gets encrypted
 app.secret_key = "drhshsdgeajhsrjgewaetjtdyjsrhwasdgfasdg42224352352"
 
+#avatar clicks
+$("#").click(change_avatar() {
+
+	})
+
 @app.route("/")
 def index():
 	retrieve_post_query = "SELECT * FROM buzzes limit 25"
@@ -85,16 +90,6 @@ def register_submit():
 	print check_username_result
 	return "Done"
 	# If taken, route back to register page with msg
-
-
-	####--------to-do, upload photo
-		# image = request.files["avatar"]
-		# image.save("static/images/avatars" + image.filename)
-		# image_path = image.filename
-		# query = "INSERT INTO page_content VALUES (DEFAULT, 'home', %s, %s, 1, 1, 'left_block', NULL, %s)"
-		# cursor.execute(query, (avatar))
-		# conn.commit()
-	###----------
 	
 @app.route("/login_submit", methods = ["POST"])
 def login_submit():
@@ -148,17 +143,22 @@ def post_submit():
 	cursor.execute(retrieve_post_query)
 	buzzes = cursor.fetchall()
 	avatar = session["avatar"]
-	print avatar
-	return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar)	
-@app.route("/upload_avatar", methods=["POST"])
+	
 def upload_avatar():
 	image = request.files["avatar"]
 	image.save("static/images/avatars" + image.filename)
 	image_path = image.filename
+	username = session["username"]
 
-	query = "UPDATE user SET avatar = %s WHERE username = '%s'" % session["username"]
-	cursor.execute(query, (image_path))
-	return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar, username = session["username"])
+	query = "UPDATE user SET avatar = %s WHERE username = '%s'"
+	cursor.execute(query, (image_path, username))
+
+##########change avatar
+
+	return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar)	
+
+# @app.route("/upload_avatar", methods=["POST"])
+	# return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar, username = session["username"])
 
 @app.route("/logout")
 def logout():
