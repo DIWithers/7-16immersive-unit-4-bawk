@@ -2,7 +2,7 @@
 {% block body %}
 
 {% if message %}
-<div class="alert alert-danger">{{message}}</div>
+<div class="alert alert-warning">{{message}}</div>
 {% endif %}
 
 <!-- Carousel!!! -->
@@ -114,8 +114,10 @@
     <div class="col-md-8 col-md-offset-2 post-wrapper">
     {% for buzz in buzzes %}
       <div class="row buzzes">
-        <div class="col-md-2 avatar"><img src="static/images/avatars/{{avatar}}"></div>
-        <div class="col-md-8 post-content"><p>{{buzz[1]}}</p></div>
+        <div class="col-md-2 avatar"><img src="static/images/avatars/{{buzz[5]}}">
+          <div class"col-md-12">{{buzz[4]}}</div>
+        </div>
+        <div class="col-md-8 post-content"><p>{{buzz[3]}}</p><p>{{buzz[1]}}</p></div>
         <div class="col-md-2 votes"><div class="vote vote-up" post_id="{{buzz[0]}}">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="imgView" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 451.847 451.846" style="enable-background:new 0 0 451.847 451.846;" xml:space="preserve" class="detail convertSvgInline replaced-svg" data-id="32323" data-kw="navigate6">
             <g>
@@ -124,7 +126,7 @@
           </svg>      
         </div>
         <div class="vote-up-down-number" up-down-id="{{buzz[0]}}">
-          {{buzz[3]}}
+          {{buzz[2]}}
         </div>
 
         <div class="vote vote-down" post_id="{{buzz[0]}}">

@@ -52,7 +52,6 @@ def register_submit():
 	cursor.execute(check_username_query) #id, full_name, username, password, email, avatar
 	check_username_result = cursor.fetchone()
 	if check_username_result is None: #no match, need to insert
-
 		full_name = request.form['full_name']
 		username = request.form['username']
 		password = request.form['password'].encode("utf-8")
@@ -63,14 +62,21 @@ def register_submit():
 		insert_username_query = "INSERT INTO user VALUES (DEFAULT, %s, %s, %s, %s, DEFAULT)"
 		cursor.execute(insert_username_query, (full_name, username, hashed_password, email))
 		conn.commit()
+
 		# shortcut so user doesn't have to log in right after registering
 		session["username"] = request.form["username"]
-		# session["id"] = check_username_result[0]
 		session["full_name"] = request.form["full_name"]
 		session["avatar"] = "bee_neutral.png"
 		retrieve_post_query = "SELECT * FROM buzzes limit 25"
 		cursor.execute(retrieve_post_query)
 		buzzes = cursor.fetchall()
+
+		#Need this if the user wants to post right after registration
+		check_user_query = "SELECT * FROM user WHERE username = '%s'" % session["username"]
+		cursor.execute(check_user_query)
+		check_user_result = cursor.fetchone()
+		session["id"] = check_user_result[0]
+
 		#welcome the user?
 		return render_template("index.html", welcome_msg = "Welcome, " + session["full_name"], buzzes = buzzes, avatar = session["avatar"])
 	else:
@@ -92,7 +98,7 @@ def register_submit():
 	
 @app.route("/login_submit", methods = ["POST"])
 def login_submit():
-	retrieve_post_query = "SELECT * FROM buzzes limit 25"
+	retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid limit 50"
 	cursor.execute(retrieve_post_query)
 	buzzes = cursor.fetchall()
 
@@ -123,7 +129,7 @@ def login_submit():
 		print check_user_result[5]
 		#welcome the user?
 
-		return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = session["avatar"] )
+		return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = session["avatar"], username = session["username"] )
 		# return redirect("/")
 		
 	else:
@@ -132,12 +138,13 @@ def login_submit():
 def post_submit():
 	#first post
 	post_content = request.form["post_content"]
-	insert_post_query = "INSERT INTO buzzes VALUES (DEFAULT, %s, %s, DEFAULT)"
+	insert_post_query = "INSERT INTO buzzes VALUES (DEFAULT, %s, %s, DEFAULT, DEFAULT)"
 	cursor.execute(insert_post_query, (post_content, session["id"]))
 	conn.commit()
 
 	#then a query
-	retrieve_post_query = "SELECT * FROM buzzes limit 25"
+
+	retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid limit 50"
 	cursor.execute(retrieve_post_query)
 	buzzes = cursor.fetchall()
 	avatar = session["avatar"]
@@ -151,7 +158,7 @@ def upload_avatar():
 
 	query = "UPDATE user SET avatar = %s WHERE username = '%s'" % session["username"]
 	cursor.execute(query, (image_path))
-	return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar)
+	return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar, username = session["username"])
 
 @app.route("/logout")
 def logout():
@@ -163,8 +170,8 @@ def logout():
 def process_vote():
 	#has the user voted on this particular item?
 	pid = reuest.form["pid"]
-	check_user_votes_query = "SELECT * FROM votes INNER JOIN user user.id = votes.uid WHERE user.username = '%s' AND votes.pid = '%s' " % session["id"], pid
-	cursor.execute(check_user_result)
+	check_user_votes_query = "SELECT * FROM votes INNER JOIN user ON user.id = votes.uid WHERE user.username = '%s' AND votes.pid = '%s' " % session["id"], pid
+	cursor.execute(check_user_votes_query)
 	check_user_votes_result = cursor.fetchone()
 	# It's possible we get none back bc the user hasn't voted on this post...
 	if check_user_votes_result is None: #insert needed

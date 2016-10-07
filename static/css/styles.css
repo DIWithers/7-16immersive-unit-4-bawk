@@ -95,72 +95,73 @@ body hr {
 .container .post-container .post-wrapper .buzzes .avatar img {
   width: 60px;
   margin-top: 20px;
+  padding-bottom: 15px;
 }
-/* line 72, ../../compass/sass/styles.scss */
+/* line 73, ../../compass/sass/styles.scss */
 .container .post-container .post-wrapper .votes .vote-up-down-number {
   margin-left: 15px;
   font-size: 18px;
 }
 
-/* line 82, ../../compass/sass/styles.scss */
+/* line 83, ../../compass/sass/styles.scss */
 .form-horizontal {
   padding: 15%;
   padding-top: 1%;
 }
-/* line 85, ../../compass/sass/styles.scss */
+/* line 86, ../../compass/sass/styles.scss */
 .form-horizontal .form-wrapper {
   background-color: #fef6d4;
   padding: 30px;
   padding-top: 8%;
 }
 
-/* line 92, ../../compass/sass/styles.scss */
+/* line 93, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper {
   background-color: beige;
   box-shadow: 1px 1px 1px 5px #fcd6a1;
   margin-bottom: 15px;
   height: 100px;
 }
-/* line 99, ../../compass/sass/styles.scss */
+/* line 100, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .avatar-button {
   height: 25px;
   font-size: 10px;
   margin: 8px 0px;
 }
-/* line 104, ../../compass/sass/styles.scss */
+/* line 105, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .current-avatar {
   border-right: 1px solid #fcd6a1;
   height: 100%;
   text-align: center;
 }
-/* line 108, ../../compass/sass/styles.scss */
+/* line 109, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .current-avatar img {
   width: 60px;
 }
-/* line 112, ../../compass/sass/styles.scss */
+/* line 113, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .choose-avatar {
   padding-bottom: 10px;
 }
-/* line 114, ../../compass/sass/styles.scss */
+/* line 115, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .choose-avatar ul {
   list-style-type: none;
   width: 100%;
 }
-/* line 118, ../../compass/sass/styles.scss */
+/* line 119, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .choose-avatar ul li {
   float: left;
 }
-/* line 120, ../../compass/sass/styles.scss */
+/* line 121, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .choose-avatar ul li :hover {
   border: 1px solid beige;
 }
-/* line 123, ../../compass/sass/styles.scss */
+/* line 124, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .choose-avatar ul li img {
   max-height: 35px;
   max-width: 40px;
 }
 
-/* line 134, ../../compass/sass/styles.scss */
+/* line 135, ../../compass/sass/styles.scss */
 .register button {
   text-align: center;
 }
