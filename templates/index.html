@@ -151,6 +151,15 @@
     {% endfor %}
     </div>
   </div>
+  <div class="col-md-2">
+    <ul>
+    {% if followed %}
+    {% for ppl in followed %}
+      <li></li>
+    {% endfor %}
+    {% endif %}
+    </ul>
+  </div>
 </div> <!-- end container -->
 {% endif %}
 {% endblock %}
