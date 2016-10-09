@@ -25,11 +25,11 @@ app.secret_key = "drhshsdgeajhsrjgewaetjtdyjsrhwasdgfasdg42224352352"
 
 @app.route("/")
 def index():
-	retrieve_post_query = "SELECT * FROM buzzes limit 25"
+	retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid ORDER BY timestamp DESC limit 50"
 	cursor.execute(retrieve_post_query)
 	buzzes = cursor.fetchall()
 
-	return render_template("index.html", buzzes = buzzes)
+	return render_template("index.html", buzzes = buzzes, avatar = session["avatar"])
 
 
 
@@ -68,10 +68,9 @@ def register_submit():
 		session["username"] = request.form["username"]
 		session["full_name"] = request.form["full_name"]
 		session["avatar"] = "bee_neutral.png"
-		retrieve_post_query = "SELECT * FROM buzzes limit 25"
+		retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid ORDER BY timestamp DESC limit 50"
 		cursor.execute(retrieve_post_query)
 		buzzes = cursor.fetchall()
-
 		#Need this if the user wants to post right after registration
 		check_user_query = "SELECT * FROM user WHERE username = '%s'" % session["username"]
 		cursor.execute(check_user_query)
@@ -89,7 +88,7 @@ def register_submit():
 	
 @app.route("/login_submit", methods = ["POST"])
 def login_submit():
-	retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid limit 50"
+	retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid ORDER BY timestamp DESC limit 50"
 	cursor.execute(retrieve_post_query)
 	buzzes = cursor.fetchall()
 
@@ -149,14 +148,14 @@ def upload_avatar():
 		cursor.execute(query, (image_path, username))
 		session['avatar'] = image_path #new avatar set in session
 		#refresh query for buzzes
-		retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid limit 50"
+		retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid ORDER BY timestamp DESC limit 50"
 		cursor.execute(retrieve_post_query)
 		buzzes = cursor.fetchall()
 		avatar = session["avatar"]
 
 		return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar)
 	else:
-		retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid limit 50"
+		retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid ORDER BY timestamp DESC limit 50"
 		cursor.execute(retrieve_post_query)
 		buzzes = cursor.fetchall()
 		avatar = session["avatar"]
@@ -166,31 +165,87 @@ def upload_avatar():
 @app.route("/edit_avatar", methods = ["POST"])
 def edit_avatar():
 	#edit and update
-	avatar_Img = request.form["avatarImg"]
+	print "EEEEEDDDDDDIIIIIIITTTTT"
+	session["avatar"] = request.form["avatar"]
+	avatar = session["avatar"]
 	username = session['username']
-	query = "UPDATE user SET avatar = %s WHERE username = '%s'"
-	cursor.execute(query, (avatar_Img, username))
-	
-	return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar)
+	if avatar:
+		query = "UPDATE user SET avatar = %s WHERE username = %s"
+		cursor.execute(query, (avatar, username))
+		retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid limit 50"
+		cursor.execute(retrieve_post_query)
+		buzzes = cursor.fetchall()
+		avatar = session["avatar"]
+		return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar)
 
+@app.route("/edit_complete", methods = ["POST"]) #because of async
+def edit_complete():
+	retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid ORDER BY timestamp DESC limit 50"
+	cursor.execute(retrieve_post_query)
+	buzzes = cursor.fetchall()
+	avatar = session["avatar"]
+	return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar)
 
 @app.route("/process_vote", methods= ["POST"])
 def process_vote():
 	#has the user voted on this particular item?
 	pid = request.form["pid"]
-	check_user_votes_query = "SELECT * FROM votes INNER JOIN user ON user.id = votes.uid WHERE user.username = '%s' AND votes.pid = '%s' " % session["id"], pid
-	cursor.execute(check_user_votes_query)
+	vote_type = request.form["vote_type"]
+	uid = session["id"]
+	username = session["username"]
+	avatar = session["avatar"]
+	print pid
+	print uid
+	print vote_type
+	check_user_votes_query = "SELECT * FROM votes INNER JOIN user ON user.id = votes.uid WHERE user.username = %s AND votes.pid = %s" 
+	print check_user_votes_query
+	cursor.execute(check_user_votes_query, (username, pid))
 	check_user_votes_result = cursor.fetchone()
+
+	print check_user_votes_result
 	# It's possible we get none back bc the user hasn't voted on this post...
 	if check_user_votes_result is None: #insert needed
-		insert_user_vote_query = "INSERT INTO votes (pid, uid, vote_type) VALUES ('"+pid+"', '"+session['id']+"', '"+vote_type+"')"
-		cursor.execute(insert_user_vote_query)
+		print "No votes"
+		insert_user_vote_query = "INSERT INTO votes VALUES (DEFAULT, %s, %s, %s)"
+		cursor.execute(insert_user_vote_query, (pid, uid, vote_type))
+		conn.commit() #success!
+
+		vote_count_sum = "SELECT SUM(vote_type) FROM votes WHERE pid ='%s'" % pid #running total
+		cursor.execute(vote_count_sum)
+		vote_sum = cursor.fetchone()
+		print vote_sum[0]
+
+		update_current_votes_query = "UPDATE buzzes SET buzzes.current_vote = %s WHERE buzzes.id = '%s'" % (vote_sum[0], pid)
+		cursor.execute(update_current_votes_query)
 		conn.commit()
-	return jsonify(request.form["pid"])
+
+		retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid ORDER BY timestamp DESC limit 50"
+		cursor.execute(retrieve_post_query)
+		buzzes = cursor.fetchall()
+		return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar, vote_message = "Vote counted.")
+
+	else:
+		# print "Yes!"
+		vote_count_sum = "SELECT SUM(vote_type) FROM votes WHERE pid ='%s'" % pid#running total
+		cursor.execute(vote_count_sum)
+		vote_sum = cursor.fetchone()
+		print vote_sum[0]
+	
+
+		update_current_votes_query = "UPDATE buzzes SET buzzes.current_vote = %s WHERE buzzes.id = '%s'" % (vote_sum[0], pid)
+		cursor.execute(update_current_votes_query)
+
+		retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid ORDER BY timestamp DESC limit 50"
+		cursor.execute(retrieve_post_query)
+		buzzes = cursor.fetchall()
+
+		return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar, vote_message = "Already voted")
+
 
 @app.route("/logout")
 def logout():
 	session.clear() #ends session
+	buzzes = ""
 	return render_template("index.html", message = "Logged out successfully." )
 
 if __name__ == "__main__":

@@ -71,8 +71,10 @@ body{
 					}
 				}
 			}
-			.votes {
-
+			.vote {
+				:hover {
+					cursor: pointer;
+				}
 				.vote-up-down-number{
 					margin-left: 15px;
 					font-size: 18px;
@@ -97,9 +99,9 @@ body{
 	background-color: beige;
 	// border: 1px solid #fcd6a1;
 	box-shadow: 1px 1px 1px 5px #fcd6a1;
-
+	height: 100%;
 	margin-bottom: 15px;
-	height: 100px;
+	height: 120px;
 	.avatar-button {
 	height: 25px;
 	font-size: 10px;
@@ -115,6 +117,8 @@ body{
 	}
 	.choose-avatar {
 		padding-bottom: 10px;
+		border-right: 1px solid #fcd6a1;
+		overflow: hidden;
 		ul {
 			list-style-type: none;
 			width: 100%;
@@ -123,7 +127,11 @@ body{
 				float:left;
 				:hover {
 						border: 1px solid beige;
+						cursor:pointer;
 					}
+				:active {
+					border: 2px solid beige;
+				}
 				img {
 					max-height: 35px;
 					max-width: 40px;
