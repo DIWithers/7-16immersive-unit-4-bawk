@@ -71,13 +71,14 @@ body{
 					}
 				}
 			}
-			.vote {
+			.votes {
 				:hover {
 					cursor: pointer;
 				}
 				.vote-up-down-number{
 					margin-left: 15px;
 					font-size: 18px;
+
 
 				}
 			}
@@ -146,6 +147,12 @@ body{
 	button {
 		text-align: center;
 		}
+}
+.followed {
+	background-color: #fef6d4;
+	ul {
+
+	}
 }
 
 

@@ -75,7 +75,7 @@
       <div class="col-md-4 col-md-offset-7"><button type="submit" class="btn btn-warning post-button">Submit Post</button></div>
     </div>
   </form>
-  <div class="col-md-8 col-md-offset-2 edit-avatar-wrapper">
+  <div class="col-md-8 col-md-offset-1 edit-avatar-wrapper">
     <div class="col-sm-2 current-avatar"><label>Current Avatar</label><img src="static/images/avatars/{{avatar}}"></div>
     <form id="choose-avatar-form" action="edit_complete" method="POST">
       <div class="col-sm-5">
@@ -114,7 +114,7 @@
   </div>
   <!-- RECENT POSTS -->
   <div class="post-container">
-    <div class="col-md-8 col-md-offset-2 post-wrapper">
+    <div class="col-md-8 col-md-offset-1 post-wrapper">
     {% for buzz in buzzes %}
       <div class="row buzzes">
         <div class="col-md-2 avatar"><img src="static/images/avatars/{{buzz[5]}}">
@@ -152,6 +152,7 @@
     </div>
   </div>
   <div class="col-md-2">
+    <h3>Followers</h3>
     <ul>
     {% if followed %}
     {% for ppl in followed %}
