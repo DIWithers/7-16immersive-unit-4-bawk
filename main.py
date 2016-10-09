@@ -22,10 +22,6 @@ cursor = conn.cursor()
 #secret key needed for sessions to work #salt for the session #gets encrypted
 app.secret_key = "drhshsdgeajhsrjgewaetjtdyjsrhwasdgfasdg42224352352"
 
-#avatar clicks
-$("#").click(change_avatar() {
-
-	})
 
 @app.route("/")
 def index():
@@ -83,7 +79,7 @@ def register_submit():
 		session["id"] = check_user_result[0]
 
 		#welcome the user?
-		return render_template("index.html", welcome_msg = "Welcome, " + session["full_name"], buzzes = buzzes, avatar = session["avatar"])
+		return render_template("index.html", welcome_msg = "Welcome, " + session["full_name"], messagePos = "Registration successful.", buzzes = buzzes, avatar = session["avatar"])
 	else:
 		return redirect("/register?username=taken")
 
@@ -111,9 +107,6 @@ def login_submit():
 	hashed_password_from_mysql_encoded = hashed_password_from_mysql_query.encode("utf-8")
 
 	hashed_password_from_login = bcrypt.hashpw(password, bcrypt.gensalt())
-	# return hashed_password_from_mysql
-	# to check a hash against english...
-	# print hashed_password_from_login
 
 	if bcrypt.checkpw(password, hashed_password_from_mysql_encoded):
 		print "Login SUCCESS!!!!"
@@ -122,10 +115,9 @@ def login_submit():
 		session["full_name"] = check_user_result[1]
 		session["avatar"] = check_user_result[5]
 		print check_user_result[5]
-		#welcome the user?
+		#welcome the user
 
 		return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = session["avatar"], username = session["username"] )
-		# return redirect("/")
 		
 	else:
 		return render_template("login.html", message = "Wrong password. Please try again." )
@@ -138,38 +130,54 @@ def post_submit():
 	conn.commit()
 
 	#then a query
-
-	retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid limit 50"
+	retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid ORDER BY timestamp DESC limit 50"
 	cursor.execute(retrieve_post_query)
 	buzzes = cursor.fetchall()
 	avatar = session["avatar"]
-	
+	return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = session["avatar"], username = session["username"] )
+
+@app.route("/upload_avatar", methods = ["POST"])	
 def upload_avatar():
-	image = request.files["avatar"]
-	image.save("static/images/avatars" + image.filename)
-	image_path = image.filename
 	username = session["username"]
+	image = request.files["image_link"]
 
+	if image:
+	#upload and update
+		image.save("static/images/avatars/" + image.filename)
+		image_path = image.filename
+		query = "UPDATE user SET avatar = %s WHERE username = %s"
+		cursor.execute(query, (image_path, username))
+		session['avatar'] = image_path #new avatar set in session
+		#refresh query for buzzes
+		retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid limit 50"
+		cursor.execute(retrieve_post_query)
+		buzzes = cursor.fetchall()
+		avatar = session["avatar"]
+
+		return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar)
+	else:
+		retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid limit 50"
+		cursor.execute(retrieve_post_query)
+		buzzes = cursor.fetchall()
+		avatar = session["avatar"]
+		return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar, message = "Please provide an image to upload.")
+
+################# EDIT AVATAR ##################
+@app.route("/edit_avatar", methods = ["POST"])
+def edit_avatar():
+	#edit and update
+	avatar_Img = request.form["avatarImg"]
+	username = session['username']
 	query = "UPDATE user SET avatar = %s WHERE username = '%s'"
-	cursor.execute(query, (image_path, username))
-
-##########change avatar
-
-	return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar)	
-
-# @app.route("/upload_avatar", methods=["POST"])
-	# return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar, username = session["username"])
-
-@app.route("/logout")
-def logout():
-	session.clear() #ends session
-	return render_template("index.html", message = "Logged out successfully." )
+	cursor.execute(query, (avatar_Img, username))
+	
+	return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar)
 
 
 @app.route("/process_vote", methods= ["POST"])
 def process_vote():
 	#has the user voted on this particular item?
-	pid = reuest.form["pid"]
+	pid = request.form["pid"]
 	check_user_votes_query = "SELECT * FROM votes INNER JOIN user ON user.id = votes.uid WHERE user.username = '%s' AND votes.pid = '%s' " % session["id"], pid
 	cursor.execute(check_user_votes_query)
 	check_user_votes_result = cursor.fetchone()
@@ -179,6 +187,12 @@ def process_vote():
 		cursor.execute(insert_user_vote_query)
 		conn.commit()
 	return jsonify(request.form["pid"])
+
+@app.route("/logout")
+def logout():
+	session.clear() #ends session
+	return render_template("index.html", message = "Logged out successfully." )
+
 if __name__ == "__main__":
 	app.run(debug=True)
 

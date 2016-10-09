@@ -2,7 +2,10 @@
 {% block body %}
 
 {% if message %}
-<div class="alert alert-warning">{{message}}</div>
+<div class="alert alert-danger">{{message}}</div>
+{% endif %}
+{% if messagePos %}
+<div class="alert alert-warning">{{messagePos}}</div>
 {% endif %}
 
 <!-- Carousel!!! -->
@@ -74,36 +77,36 @@
   </form>
   <div class="col-md-8 col-md-offset-2 edit-avatar-wrapper">
     <div class="col-sm-2 current-avatar"><label>Current Avatar</label><img src="static/images/avatars/{{avatar}}"></div>
-    <form id="choose-avatar-form" action="choose_avatar()" method="POST">
+    <form id="choose-avatar-form" action="choose_avatar" method="POST">
       <div class="col-sm-5">
         <div class="choose-avatar">
         <label><span style="color:beige;">............</span>Choose an Avatar</label>
           <ul>
-            <li><a href="#" id = "alien.png" onclick="change_avatar(id); return false;"><img src="static/images/avatars/alien.png"></a></li>
-            <li><a href="#" id = "chris_rock.png" onclick="change_avatar(id)"><img src="static/images/avatars/chris_rock.png"></a></li>
-            <li><a href="#" id ="happy_grandpa.png" onclick="change_avatar(id)"><img src="static/images/avatars/happy_grandpa.png"></a></li>
-            <li><a href="#" id ="man_red_background.png" onclick="change_avatar(id)"><img src="static/images/avatars/man_red_background.png"></a></li>
-            <li><a href="#" id ="man_sad.png"><img src="static/images/avatars/man_sad.png"></a></li>
-            <li><a href="#" id ="vampire.png"><img src="static/images/avatars/vampire.png"></a></li>
-            <li><a href="#" id ="wolverine.png"><img src="static/images/avatars/wolverine.png"></a></li>
-            <li><a href="#" id ="woman_shades.png"><img src="static/images/avatars/woman_shades.png"></a></li>
-            <li><a href="#" id ="woman_violet.png"><img src="static/images/avatars/woman_violet.png"></a></li>
-            <li><a href="#" id ="zombie.png"><img src="static/images/avatars/zombie.png"></a></li>
-            <li><a href="#" id ="woman_pink_hair.png"><img src="static/images/avatars/woman_pink_hair.png"></a></li>
-            <li><a href="#" name="woman_grey_hair.png"><img src="static/images/avatars/woman_grey_hair.png"></a></li>
-            <li><a href="#" name="woman_grey.png"><img src="static/images/avatars/woman_grey.png"></a></li>
-            <li><a href="#" name="dead_bee.png"><img src="static/images/dead_bee.png"></a></li>
+            <li class="avatar alien"><img src="static/images/avatars/alien.png"></li>
+            <li class="avatar chris"><img src="static/images/avatars/chris_rock.png"></li>
+            <li class="avatar grandpa"><img src="static/images/avatars/happy_grandpa.png"></li>
+            <li class="avatar man_red"><img src="static/images/avatars/man_red_background.png"></li>
+            <li class="avatar man_sad"><img src="static/images/avatars/man_sad.png"></li>
+            <li class="avatar vampire"><img src="static/images/avatars/vampire.png"></li>
+            <li class="avatar wolverine"><img src="static/images/avatars/wolverine.png"></li>
+            <li class="avatar woman_shades"><img src="static/images/avatars/woman_shades.png"></li>
+            <li class="avatar woman_violet"><img src="static/images/avatars/woman_violet.png"></li>
+            <li class="avatar zombie"><img src="static/images/avatars/zombie.png"></li>
+            <li class="avatar woman_pink"><img src="static/images/avatars/woman_pink_hair.png"></li>
+            <li class="avatar woman_grey_hair"><img src="static/images/avatars/woman_grey_hair.png"></li>
+            <li class="avatar woman_grey"><img src="static/images/avatars/woman_grey.png"></li>
+            <li class="avatar dead_bee"><img src="static/images/dead_bee.png"></li>
           </ul>
         </div>
         
       </div>
       
     </form>
-    <form id="upload-avatar-form" action="upload_avatar()" method="POST">
+    <form id="upload-avatar-form" action="upload_avatar" method="POST" enctype="multipart/form-data">
       <div class="col-sm-3">
         <label>Or Upload Your Own</label>
         <div class="update_avatar">
-          <input type="file" id="avatar" name="avatar">
+          <input type="file" id="avatar" name="image_link" class="form-control" style="width:200px">
         </div>
         <button type="submit" class="btn btn-warning avatar-button">Upload</button>
       </div>
@@ -117,7 +120,8 @@
         <div class="col-md-2 avatar"><img src="static/images/avatars/{{buzz[5]}}">
           <div class"col-md-12">{{buzz[4]}}</div>
         </div>
-        <div class="col-md-8 post-content"><p>{{buzz[3]}}</p><p>{{buzz[1]}}</p></div>
+        <div class="col-md-8 post-content"><p class="date_time">{{buzz[3].strftime('%A, %b, 
+        %d %Y-%l:%M%p') }}</p><p>{{buzz[1]}}</p></div>
         <div class="col-md-2 votes"><div class="vote vote-up" post_id="{{buzz[0]}}">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="imgView" x="0px" y="0px" width="40px" height="40px" viewBox="0 0 451.847 451.846" style="enable-background:new 0 0 451.847 451.846;" xml:space="preserve" class="detail convertSvgInline replaced-svg" data-id="32323" data-kw="navigate6">
             <g>
@@ -139,6 +143,10 @@
           </svg>
         </div></div>
       </div>
+ <!--      {% if buzz[3]: %}
+        <div class="col-md-8 text-left">{{buzz[3].strftime('%A, %b, 
+        %d %Y') }}</div>          
+      {% endif %} -->
       <hr>
     {% endfor %}
     </div>

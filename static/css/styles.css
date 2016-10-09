@@ -87,81 +87,85 @@ body hr {
 .container .post-container .post-wrapper .buzzes .post-content {
   padding-top: 20px;
 }
-/* line 62, ../../compass/sass/styles.scss */
+/* line 61, ../../compass/sass/styles.scss */
+.container .post-container .post-wrapper .buzzes .post-content .date_time {
+  font-size: 13px;
+}
+/* line 65, ../../compass/sass/styles.scss */
 .container .post-container .post-wrapper .buzzes .avatar {
   text-align: center;
 }
-/* line 64, ../../compass/sass/styles.scss */
+/* line 67, ../../compass/sass/styles.scss */
 .container .post-container .post-wrapper .buzzes .avatar img {
   width: 60px;
   margin-top: 20px;
   padding-bottom: 15px;
 }
-/* line 73, ../../compass/sass/styles.scss */
+/* line 76, ../../compass/sass/styles.scss */
 .container .post-container .post-wrapper .votes .vote-up-down-number {
   margin-left: 15px;
   font-size: 18px;
 }
 
-/* line 83, ../../compass/sass/styles.scss */
+/* line 86, ../../compass/sass/styles.scss */
 .form-horizontal {
   padding: 15%;
   padding-top: 1%;
 }
-/* line 86, ../../compass/sass/styles.scss */
+/* line 89, ../../compass/sass/styles.scss */
 .form-horizontal .form-wrapper {
   background-color: #fef6d4;
   padding: 30px;
   padding-top: 8%;
 }
 
-/* line 93, ../../compass/sass/styles.scss */
+/* line 96, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper {
   background-color: beige;
   box-shadow: 1px 1px 1px 5px #fcd6a1;
   margin-bottom: 15px;
   height: 100px;
 }
-/* line 100, ../../compass/sass/styles.scss */
+/* line 103, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .avatar-button {
   height: 25px;
   font-size: 10px;
   margin: 8px 0px;
 }
-/* line 105, ../../compass/sass/styles.scss */
+/* line 108, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .current-avatar {
   border-right: 1px solid #fcd6a1;
   height: 100%;
   text-align: center;
 }
-/* line 109, ../../compass/sass/styles.scss */
+/* line 112, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .current-avatar img {
   width: 60px;
 }
-/* line 113, ../../compass/sass/styles.scss */
+/* line 116, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .choose-avatar {
   padding-bottom: 10px;
 }
-/* line 115, ../../compass/sass/styles.scss */
+/* line 118, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .choose-avatar ul {
   list-style-type: none;
   width: 100%;
 }
-/* line 119, ../../compass/sass/styles.scss */
+/* line 122, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .choose-avatar ul li {
   float: left;
 }
-/* line 121, ../../compass/sass/styles.scss */
+/* line 124, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .choose-avatar ul li :hover {
   border: 1px solid beige;
 }
-/* line 124, ../../compass/sass/styles.scss */
+/* line 127, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .choose-avatar ul li img {
   max-height: 35px;
   max-width: 40px;
 }
 
-/* line 135, ../../compass/sass/styles.scss */
+/* line 138, ../../compass/sass/styles.scss */
 .register button {
   text-align: center;
 }
