@@ -69,6 +69,7 @@ body{
 						margin-top: 20px;
 						padding-bottom: 15px;
 					}
+			
 				}
 			}
 			.votes {
@@ -148,11 +149,23 @@ body{
 		text-align: center;
 		}
 }
-.followed {
-	background-color: #fef6d4;
-	ul {
+.follow-page {
+	.following, .followers {
+		background-color: #fef6d4;
+		height: 500px;
+		margin: 20px;
+		border-radius: 10px;
+		border: 2px solid beige;
 
 	}
+
+	.follow-button, .unfollow-button {
+		height: 25px;
+		font-size: 10px;
+		background-image: linear-gradient(to bottom,#FFF2A3 0,#FED45E 100%);
+	}
+	img {
+			width: 60px;
+		}
+						    
 }
-
-

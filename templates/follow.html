@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+{% block body %}
+<!-- starter -->
+<!-- <img src="static/images/bee-hero.png" height="300px" width="100%"> -->
+<!-- <div class="well well-lg">This is the follow page</div> -->
+<div class="container follow-page">
+	<div class='col-md-9 col-md-offset-2'>
+		<div class="col-sm-5 following">	
+			<table>
+				<thead>
+					<th><h2>Following:</h2></th>
+				</thead>
+			{% for follow in followed_list: %}
+				<tr>
+					<td>{{follow[2]}}</td>
+					<td>{{follow[1]}}</td>
+					<td><button class="btn btn-danger">UnFollow</button></td>
+				</tr>
+			{% endfor %}
+			</table>
+			</div>
+			<div class="col-sm-5 followers">	
+			<table>
+				<thead>
+					<th><h2>Followers:</h2></th>
+				</thead>
+			{% for follow in not_followed_list: %}
+				<tr>
+					<td><img src="static/images/avatars/{{follow[2]}}"</td>
+					<td>{{follow[1]}}</td>
+					<td><button class="btn follow-button">Follow</button></td>
+				</tr>
+			{% endfor %}
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}

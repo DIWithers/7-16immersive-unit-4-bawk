@@ -14,14 +14,46 @@ $(document).ready(function() {
 			type: "post",
 			data: {pid:pid, vote_type:vote_type},
 			success: function(result) {
-				// console.log("RESULT" + result)
+					if(result.message == 'voteChanged'){
+						console.log("vote changed!")
+					
+					$("div[up-down-id='" + pid + "']").html(result.vote_total)
+					}
+					else if(result.message == 'alreadyVoted'){
+				
+					$("#vote_msg").html('Already voted')
+					console.log("Already voted!")
+				}
 			},
 			error: function(error){
 				console.log(error)
 			}
 		});
+		// location.reload();
 
 	});
+
+	//FOLLOW OR UNFOLLOW
+	$("#followOrUnfollow").click(function() {
+		console.log("followed clicked")
+		userID = $(this).attr("user-id")
+		if ($(this).hasClass("follow-button")) {
+			$.ajax ({
+			url: "/follow_user",
+			type: "post",
+			data: {userID:userID},
+			success: function(result) {
+				
+				if (result.message == 'userFollowed') {
+					console.log("User followed!")
+					$("div[user-name='" + userID + "']").html("<button class='btn btn-caution unfollow-button'>Unfollow</button>")
+				}
+
+			}
+		});
+		}
+	
+	})
 
 	// PICK YOUR AVATAR
 	$(".avatar").click(function() {
@@ -69,7 +101,7 @@ $(document).ready(function() {
 		else if ($(this).hasClass("dead_bee")){
 			var avatar = "dead_bee.png" ;
 		}
-
+		// location.reload();
 		$.ajax ({
 			url: "/edit_avatar",
 			type: "post",
@@ -78,7 +110,9 @@ $(document).ready(function() {
 				console.log("Avatar changed!")
 			}
 		});
-		console.log("doubleclick" + avatar)
+		
+		
+
 	})
 
 	return false;

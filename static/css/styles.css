@@ -101,29 +101,29 @@ body hr {
   margin-top: 20px;
   padding-bottom: 15px;
 }
-/* line 75, ../../compass/sass/styles.scss */
+/* line 76, ../../compass/sass/styles.scss */
 .container .post-container .post-wrapper .votes :hover {
   cursor: pointer;
 }
-/* line 78, ../../compass/sass/styles.scss */
+/* line 79, ../../compass/sass/styles.scss */
 .container .post-container .post-wrapper .votes .vote-up-down-number {
   margin-left: 15px;
   font-size: 18px;
 }
 
-/* line 89, ../../compass/sass/styles.scss */
+/* line 90, ../../compass/sass/styles.scss */
 .form-horizontal {
   padding: 15%;
   padding-top: 1%;
 }
-/* line 92, ../../compass/sass/styles.scss */
+/* line 93, ../../compass/sass/styles.scss */
 .form-horizontal .form-wrapper {
   background-color: #fef6d4;
   padding: 30px;
   padding-top: 8%;
 }
 
-/* line 99, ../../compass/sass/styles.scss */
+/* line 100, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper {
   background-color: beige;
   box-shadow: 1px 1px 1px 5px #fcd6a1;
@@ -131,58 +131,72 @@ body hr {
   margin-bottom: 15px;
   height: 120px;
 }
-/* line 106, ../../compass/sass/styles.scss */
+/* line 107, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .avatar-button {
   height: 25px;
   font-size: 10px;
   margin: 8px 0px;
 }
-/* line 111, ../../compass/sass/styles.scss */
+/* line 112, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .current-avatar {
   border-right: 1px solid #fcd6a1;
   height: 100%;
   text-align: center;
 }
-/* line 115, ../../compass/sass/styles.scss */
+/* line 116, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .current-avatar img {
   width: 60px;
 }
-/* line 119, ../../compass/sass/styles.scss */
+/* line 120, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .choose-avatar {
   padding-bottom: 10px;
   border-right: 1px solid #fcd6a1;
   overflow: hidden;
 }
-/* line 123, ../../compass/sass/styles.scss */
+/* line 124, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .choose-avatar ul {
   list-style-type: none;
   width: 100%;
 }
-/* line 127, ../../compass/sass/styles.scss */
+/* line 128, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .choose-avatar ul li {
   float: left;
 }
-/* line 129, ../../compass/sass/styles.scss */
+/* line 130, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .choose-avatar ul li :hover {
   border: 1px solid beige;
   cursor: pointer;
 }
-/* line 133, ../../compass/sass/styles.scss */
+/* line 134, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .choose-avatar ul li :active {
   border: 2px solid beige;
 }
-/* line 136, ../../compass/sass/styles.scss */
+/* line 137, ../../compass/sass/styles.scss */
 .edit-avatar-wrapper .choose-avatar ul li img {
   max-height: 35px;
   max-width: 40px;
 }
 
-/* line 147, ../../compass/sass/styles.scss */
+/* line 148, ../../compass/sass/styles.scss */
 .register button {
   text-align: center;
 }
 
-/* line 151, ../../compass/sass/styles.scss */
-.followed {
+/* line 153, ../../compass/sass/styles.scss */
+.follow-page .following, .follow-page .followers {
   background-color: #fef6d4;
+  height: 500px;
+  margin: 20px;
+  border-radius: 10px;
+  border: 2px solid beige;
+}
+/* line 162, ../../compass/sass/styles.scss */
+.follow-page .follow-button, .follow-page .unfollow-button {
+  height: 25px;
+  font-size: 10px;
+  background-image: linear-gradient(to bottom, #FFF2A3 0, #FED45E 100%);
+}
+/* line 167, ../../compass/sass/styles.scss */
+.follow-page img {
+  width: 60px;
 }

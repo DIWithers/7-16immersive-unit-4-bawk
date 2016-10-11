@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, session
+from flask import Flask, render_template, redirect, request, session, jsonify
 from flaskext.mysql import MySQL
 import bcrypt
 
@@ -29,7 +29,7 @@ def index():
 	cursor.execute(retrieve_post_query)
 	buzzes = cursor.fetchall()
 
-	return render_template("index.html", buzzes = buzzes, avatar = session["avatar"])
+	return render_template("index.html", buzzes = buzzes, avatar = session["avatar"], username = session["username"])
 
 
 
@@ -209,38 +209,63 @@ def process_vote():
 		insert_user_vote_query = "INSERT INTO votes VALUES (DEFAULT, %s, %s, %s)"
 		cursor.execute(insert_user_vote_query, (pid, uid, vote_type))
 		conn.commit() #success!
-
 		vote_count_sum = "SELECT SUM(vote_type) FROM votes WHERE pid ='%s'" % pid #running total
 		cursor.execute(vote_count_sum)
-		vote_sum = cursor.fetchone()
-		print vote_sum[0]
-
-		update_current_votes_query = "UPDATE buzzes SET buzzes.current_vote = %s WHERE buzzes.id = '%s'" % (vote_sum[0], pid)
-		cursor.execute(update_current_votes_query)
-		conn.commit()
-
-		retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid ORDER BY timestamp DESC limit 50"
-		cursor.execute(retrieve_post_query)
-		buzzes = cursor.fetchall()
-		return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar, vote_message = "Vote counted.")
-
-	else:
-		# print "Yes!"
-		vote_count_sum = "SELECT SUM(vote_type) FROM votes WHERE pid ='%s'" % pid#running total
-		cursor.execute(vote_count_sum)
-		vote_sum = cursor.fetchone()
-		print vote_sum[0]
+		vote_total = cursor.fetchone()
+		
+		return jsonify({"message": "voteCounted", "vote_total": int(vote_total[0])})
 	
+	else: #revamp
+		check_user_vote_direction_query = "SELECT * FROM votes INNER JOIN user ON user.id = votes.uid WHERE user.username = '%s' AND votes.pid = '%s' AND votes.vote_type = %s" % (session['username'], pid, vote_type)
+		cursor.execute(check_user_vote_direction_query)
+		check_user_vote_direction_result = cursor.fetchone()
+		if check_user_vote_direction_result is None:
+			# User has voted, but not this direction. Update
+			update_user_vote_query = "UPDATE votes SET vote_type = %s WHERE uid = '%s' AND pid = '%s'" % (vote_type, session['id'], pid)
+			cursor.execute(update_user_vote_query)
+			conn.commit()
+			vote_count_sum = "SELECT SUM(vote_type) FROM votes WHERE pid ='%s'" % pid #running total
+			cursor.execute(vote_count_sum)
+			vote_total = cursor.fetchone()
+			
+			return jsonify({'message': "voteChanged", 'vote_total': int(vote_total[0])})
+		else:
+			return jsonify({'message': "alreadyVoted"})
+		
+@app.route("/follow")
+def follow():
+	get_other_users_query = "SELECT * FROM user WHERE id != '%s'" % session["id"]
+	cursor.execute(get_other_users_query)
 
-		update_current_votes_query = "UPDATE buzzes SET buzzes.current_vote = %s WHERE buzzes.id = '%s'" % (vote_sum[0], pid)
-		cursor.execute(update_current_votes_query)
+	get_all_followed = "SELECT follow.uid_of_followed, user.username, user.avatar FROM follow LEFT JOIN user ON user.id = follow.uid_of_followed WHERE follow.uid_of_follower = '%s'" % session["id"]
+	cursor.execute(get_all_followed)
+	get_all_followed_result = cursor.fetchall()
 
-		retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid ORDER BY timestamp DESC limit 50"
-		cursor.execute(retrieve_post_query)
-		buzzes = cursor.fetchall()
+	get_all_not_followed = "SELECT id, username, avatar from user WHERE id NOT IN (SELECT uid_of_followed FROM follow WHERE uid_of_follower = '%s') AND id != '%s'" % (session['id'], session['id'])
+	cursor.execute(get_all_not_followed)
+	get_all_not_followed_result = cursor.fetchall()
 
-		return render_template("index.html", welcome_msg = "Welcome,  " + session["full_name"], buzzes = buzzes, avatar = avatar, vote_message = "Already voted")
+	# return render_template('follow.html')
+	return render_template('follow.html',
+		followed_list = get_all_followed_result,
+		not_followed_list = get_all_not_followed_result)
 
+
+@app.route("/follow_user")
+def follow_user():
+	user_id_to_follow = request.args.get('user_id')
+	follow_query = "INSERT INTO follow (uid_of_followed, uid_of_follower) VALUES ('%s', '%s')" % (user_id_to_follow, session['id'])
+	cursor.execute(follow_query)
+	conn.commit()
+	return redirect("/follow")
+
+@app.route("/unfollow_user")
+def unfollow_user():
+	user_id_to_unfollow = request.args.get('user_id')
+	unfollow_query = "DELETE FROM follow WHERE uid_of_followed = '%s' AND uid_of_follower = '%s'" % (user_id_to_unfollow, session['id'])
+	cursor.execute(unfollow_query)
+	conn.commit()
+	return redirect("/follow")
 
 @app.route("/logout")
 def logout():
