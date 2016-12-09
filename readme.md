@@ -112,7 +112,7 @@ $(".vote").click(function(){
 		// location.reload();
 
 	});
-### And follow other users:
+###And follow other users:
 ```
 $("#followOrUnfollow").click(function() {
 		console.log("followed clicked")
