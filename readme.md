@@ -1,5 +1,5 @@
-#Bawk (Social Post) App
-
+#BUZZ (Social Post) App
+#####Changed from Bawk...
 ##Overview of the Project
 This is a simple YikYak/Twitter type clone. The app allows the user to register/login, it hashes the password using bcrypt, and displays the "buzzes" of the user's followers. The user can follow other users, and view profile.
 
