@@ -203,7 +203,7 @@ def process_vote():
 	check_user_votes_result = cursor.fetchone()
 
 	print check_user_votes_result
-	# It's possible we get none back bc the user hasn't voted on this post...
+	# It's possible we get none back b/c the user hasn't voted on this post...
 	if check_user_votes_result is None: #insert needed
 		print "No votes"
 		insert_user_vote_query = "INSERT INTO votes VALUES (DEFAULT, %s, %s, %s)"
