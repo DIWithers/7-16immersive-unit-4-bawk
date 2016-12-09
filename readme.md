@@ -112,6 +112,7 @@ $(".vote").click(function(){
 		// location.reload();
 
 	});
+```
 ###And follow other users:
 ```
 $("#followOrUnfollow").click(function() {
