@@ -2,7 +2,8 @@
 #####Changed from Bawk...
 ##Overview of the Project
 This is a simple YikYak/Twitter type clone. The app allows the user to register/login, it hashes the password using bcrypt, and displays the "buzzes" of the user's followers. The user can follow other users, and view profiles.
-![Buzz landing](images/buzz_landing.png "Buzz Landing")
+![Buzz landing](static/images/buzz_landing.png "Buzz Landing")
+
 ##Technologies in use:
 * HTML
 * CSS
@@ -78,7 +79,7 @@ $(".avatar").click(function() {
 			}
 		});
 ```
-![Avatars](images/buzz_avatars.png "Buzz Avatars")
+![Avatars](static/images/buzz_avatars.png "Buzz Avatars")
 ###Cast a vote:
 ```
 $(".vote").click(function(){
@@ -114,7 +115,7 @@ $(".vote").click(function(){
 
 	});
 ```
-![buzzes](images/buzzes.png "Buzzes")
+![buzzes](static/images/buzzes.png "Buzzes")
 ###And follow other users:
 ```
 $("#followOrUnfollow").click(function() {
