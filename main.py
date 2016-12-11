@@ -28,9 +28,13 @@ def index():
 	retrieve_post_query = "SELECT buzzes.id, post_content, current_vote, timestamp, username, avatar FROM buzzes INNER JOIN user ON user.id = buzzes.uid ORDER BY timestamp DESC limit 50"
 	cursor.execute(retrieve_post_query)
 	buzzes = cursor.fetchall()
-
-	return render_template("index.html", buzzes = buzzes, avatar = session["avatar"], username = session["username"])
-
+	if (session) :
+		return render_template("index.html", buzzes = buzzes, avatar = session["avatar"], username = session["username"])
+	
+	else:
+		return render_template("index.html", buzzes = buzzes) 
+	
+	
 
 
 @app.route("/login")
